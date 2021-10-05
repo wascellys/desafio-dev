@@ -79,7 +79,7 @@ def cadastrar(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         else:
-            messages.error(request, "Os dados arquivo não está no padrão esperado")
+            messages.error(request, "O arquivo não está no padrão esperado")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     except:
         messages.error(request, "Erro ao enviar o arquivo! ")

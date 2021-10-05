@@ -70,7 +70,7 @@ python manage.py migrate
 ```
 #### Criar um superuser para testes
 ```
-python manage.py createtestuser
+python manage.py createsuperuser
 ```
 #### Carregando dados de teste
 ```
@@ -116,8 +116,8 @@ Cada resposta será retornada com um dos seguintes códigos de status HTTP:
 ### Endpoints abetos
 Os endpoints abertos não precisam de autenticação :
 
-- *[Login](docs/login.md) : `POST` `/api/login`*
-- *[Register](docs/signup.md) : `POST` `/api/register`*
+- *[Login]() : `POST` `/api/login`*
+- *[Register]() : `POST` `/api/register`*
 
 #### Login e Register
 - Campos:
@@ -128,9 +128,10 @@ Os endpoints abertos não precisam de autenticação :
   | password  | Senha do usuário | String  | :ballot_box_with_check: |
 
 - Rotas
-  - *Cadastrar usuário: `POST` `/api/register`*
-  - *Obter token de autenticação: `POST` `/api/api-token-auth`*
+  - *Cadastrar usuário: `POST` `/api/register/`*
+  - *Obter token de autenticação: `POST` `/api/api-token-auth/`*
   - *Autenticar usando Google-oauht2: `GET` `/oauth/login/google-oauth2/`*
+  
 
 ### Endpoints fechados
 Os endpoints fechados precisam de autenticação via token:
@@ -148,8 +149,8 @@ passar no cabeçalho da requisição: "Authorization": Token <token>
   | sign        | Sinal de representação do tipo | String   | :ballot_box_with_check: |
 
 - Rotas
-  - *Listar tipos transações: `GET` `/api/type-transactions`*
-  - *Cadastrar um tipo transação: `POST` `/api/type-transactions`*
+  - *Listar tipos transações: `GET` `/api/type-transactions/`*
+  - *Cadastrar um tipo transação: `POST` `/api/type-transactions/`*
   - *Atualizar um tipo transação: `PUT` `/api/type-transactions/{id}`*
   - *Deletar um tipo transação: `DELETE` `/api/type-transactions/{id}/`*
 
@@ -164,8 +165,8 @@ passar no cabeçalho da requisição: "Authorization": Token <token>
   | owner | Proprietário da Loja         | String   | :ballot_box_with_check: |
 
 - Rotas
-  - *Listar lojas: `GET` `/api/stores`*
-  - *Cadastrar uma loja: `POST` `/api/stores`*
+  - *Listar lojas: `GET` `/api/stores/`*
+  - *Cadastrar uma loja: `POST` `/api/stores/`*
   - *Atualizar uma loja: `PUT` `/api/stores/{id}`*
   - *Deletar uma loja: `DELETE` `/api/stores/{id}/`*
 
@@ -187,6 +188,11 @@ passar no cabeçalho da requisição: "Authorization": Token <token>
 - Rotas
   - *Listar transações: `GET` `/api/transactions`*
   - *Filtrar transações de uma Loja: `GET` `/api/transactions/?store_id=<id>`*
-  - *Cadastrar uma transação: `POST` `/api/transactions`*
-  - *Atualizar uma transação: `PUT` `/api/transactions/{id}`*
+  - *Cadastrar uma transação: `POST` `/api/transactions/`*
+  - *Cadastrar usando arquivo CNAB.txt: `POST` `/api/upload/file`*
+    - *Passando os dados :*
+    ```
+    'file' : arquivo.txt
+    ```
+  - *Atualizar uma transação: `PUT` `/api/transactions/{id}/`*
   - *Deletar uma transação: `DELETE` `/api/transactions/{id}/`*

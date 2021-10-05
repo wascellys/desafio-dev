@@ -134,11 +134,11 @@ REST_FRAMEWORK = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "db_financial",
-        "USER": "postgres",
-        "PASSWORD": "12345",
-        "HOST": "localhost",
-        "PORT": 5432,
+        "NAME": os.environ.get('DB_NAME') or "db_financial",
+        "USER": os.environ.get('DB_USER') or "postgres",
+        "PASSWORD": os.environ.get('DB_PASS') or "12345",
+        "HOST": os.environ.get('DB_HOST') or "localhost",
+        "PORT": os.environ.get('DB_PORT') or 5432
     }
 }
 
