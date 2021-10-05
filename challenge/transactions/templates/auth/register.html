@@ -1,0 +1,28 @@
+{% extends 'auth/template_auth.html' %}
+{% block content %}
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Cadastre-se</span></div>
+        <form action="/register/" method="POST">
+            {% csrf_token %}
+          <div class="row">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="username" required name="username">
+          </div>
+          <div class="row">
+            <i class="fas fa-envelope"></i>
+            <input type="mail" placeholder="email"  name="email">
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="password" required name="password">
+          </div>          
+          <div class="row button">
+            <input type="submit" value="Cadastrar">
+          </div>
+         
+        </form>
+      </div>
+    </div>
+
+  {% endblock %}

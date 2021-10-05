@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Login Form | CodingLab</title> -->
+    <link href="{% static 'css/login.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+
+  {% if messages %}
+   <script>
+    {% for message in messages %}
+            Swal.fire({
+              icon: '{{message.tags}}',
+              title: '{{message.title}}',
+              text: '{{message}}',
+              showConfirmButton: false,
+              timer: 3000
+            });
+        {% endfor %}
+       </script>
+    {% endif %}
+
+  {% block content %}
+
+  {% endblock %}
+   </body>
+</html>

@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bycoders</title>
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300" rel="stylesheet">
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+</head>
+<body>
+
+    {% if messages %}
+   <script>
+    {% for message in messages %}
+            Swal.fire({
+              icon: '{{message.tags}}',
+              title: '{{message.title}}',
+              text: '{{message}}',
+              showConfirmButton: false,
+              timer: 3000
+            });
+        {% endfor %}
+       </script>
+    {% endif %}
+
+
+
+    <header>
+        <nav class="main-nav">
+          <input type="checkbox" id="check" />
+          <label for="check" class="menu-btn">
+            <i class="fas fa-bars"></i>
+          </label>
+          <a href="/store-page" class="logo">Bycoders</a>
+          <ul class="navlinks">
+              <li style="color:white;">{{user.email}}</li>
+            <li><a href="/insert-page">Cadastrar Novo</a></li>
+            <li><a href="/store-page">Lojas</a></li>
+              <li><a href="/logout">Sair</a></li>
+            <!-- <li><a href="#">About</a></li>
+            <li><a href="#" class="contact">Contact</a></li> -->
+          </ul>
+        </nav>
+      </header>
+
+
+    {% block content %} {% endblock %}
+
+
+
+</body>
+</html>

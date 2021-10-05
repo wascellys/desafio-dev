@@ -1,0 +1,87 @@
+{% extends 'template.html' %}
+{% block content %}
+
+<h2>Resumo por Lojas</h2>
+<div class="card">
+
+</div>
+<table class="styled-table" id="table" >
+    <thead>
+    <tr>
+        <th >Loja</th>
+        <th >Saldo(R$)</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr id="tfoot">
+        <td></td>
+        <td>Total: R$ {{amount}}</td>
+    </tr>
+    </tfoot>
+
+
+</table>
+<script src="//code.jquery.com/jquery-3.5.1.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.11.3/dataRender/datetime.js"></script>
+<script>
+    $(document).ready(function() {
+        var dt = $('#table').DataTable({
+            'paging':   false,
+            'ordering': true,
+            'info':     false,
+            'filter': false,
+            'columns': [
+                {'data': 'name',
+                'name':'name',
+                    'render': function (data, type, row, meta) {
+                        return '<a href="/detail-page/'+row.id+'">' +data+ '</a>';
+                    }
+                },
+                {'data': 'total_amount', 'name':'total_amount'}
+            ],
+            columnDefs: [
+               {targets: 1 , render: $.fn.dataTable.render.number( '.', ',', 2 )}
+            ],
+            'language': {
+                "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+            },
+            'footerCallback': function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                total = api
+                    .column( 1 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Total over this page
+                pageTotal = api
+                    .column( 1, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Update footer
+                $(api.column( 1 ).footer()).html('R$ '+total+'');
+            },
+            'serverSide': false,
+            'ajax': '/api/stores/?format=datatables'
+        });
+    });
+</script>
+
+{% endblock %}

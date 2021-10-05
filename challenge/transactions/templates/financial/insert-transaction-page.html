@@ -1,0 +1,45 @@
+{% extends 'template.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="wrapper">
+        <div class="title"><span>Upload de arquivo</span></div>
+        <form method="post" enctype="multipart/form-data" action="/cadastrar/">
+            {% csrf_token %}
+
+            <h2 style="color:black;"><b>Faça o upload da CNAB</b></h2>
+            <p>Suportado apenas arquivo no formato ".txt"</p>
+            <br>
+            <div class="upload-btn-wrapper" style="margin-bottom:20px;">
+                <button class="btn">Importar arquivo</button>
+                <input id ="file" type="file" name="file" accept=".txt" onchange="myFunction()"/>
+            </div>
+
+            <div id="div-upload" style="display:none;">
+                <span id="upload">asdasd</span>
+            </div>
+
+            <div class="row button">
+                <input type="submit" value="Enviar">
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    function myFunction() {
+        alert("Hello! I am an alert box!");
+      var element = = document.getElementById("file");
+      document.getElementById("upload").innerHTML = element;
+      document.getElementById("div-upload").style.display = "visible";
+      alert(element);
+    }
+</script>
+
+
+{% endblock %}

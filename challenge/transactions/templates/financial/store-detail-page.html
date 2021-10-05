@@ -1,0 +1,120 @@
+{% extends 'template.html' %}
+{% block content %}
+
+
+<h2>{{loja.name}}</h2>
+<h3>Proprietário: {{loja.owner}}</h3>
+<table class="styled-table" id="table">
+    <thead>
+    <tr>
+        <th>Beneficiario</th>
+        <th>Data</th>
+        <th>Hora</th>
+        <th>Cartão</th>
+        <th>Tipo</th>
+        <th>Natureza</th>
+        <th>Valor</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+    <tfoot>
+    <tr id="tfoot">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total: R$ </td>
+    </tr>
+    </tfoot>
+
+
+</table>
+
+<script src="//code.jquery.com/jquery-3.5.1.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.11.3/dataRender/datetime.js"></script>
+<script>
+    $(document).ready(function() {
+        var dt = $('#table').DataTable({
+            'paging':   false,
+            'ordering': true,
+            'info':     false,
+            'filter': false,
+            'columns': [
+                {'data': 'cpf'},
+                {'data': 'date'},
+                {'data': 'time'},
+                {'data': 'card'},
+                {'data': 't_type.description'},
+                {'data': 't_type.nature', 'name':'nature',
+                    'render': function (data, type, row, meta) {
+                        if(data == 'Saída'){
+                            return '<div style="color:red;"> ' +data+ '</a>';
+                        }else {
+                            return '<div>' +data+ '</a>';
+                        }
+
+                    }
+                },
+                {'data': 'amount', 'name':'amount',
+                    'render': function (data, type, row, meta) {
+                        if(data < 0){
+                            return '<div style="color:red;"> R$ ' +data+ '</a>';
+                        }else {
+                            return '<div> R$ ' +data+ '</a>';
+                        }
+
+                    }
+                },
+
+            ],
+            columnDefs: [
+            {targets: 1 , render: $.fn.dataTable.render.moment( 'YYYY-MM-DD', 'd/MM/YYYY', )},
+            {targets: 6 , render: $.fn.dataTable.render.number( '.', ',', 2 )}
+            ],
+            'language': {
+                "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+            },
+            'serverSide': false,
+            'footerCallback': function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                total = api
+                    .column( 6 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Total over this page
+                pageTotal = api
+                    .column( 6, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Update footer
+                $(api.column( 6 ).footer()).html('R$ '+total+'');
+            },
+            'ajax': '/api/transactions/?format=datatables&store_id='+{{loja.pk}}
+        });
+    });
+</script>
+
+{% endblock %}
