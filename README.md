@@ -38,9 +38,9 @@ psql -h localhost -U postgres
 
 #### Criar banco de dados
 ```
-CREATE DATABASE financial_db;
+CREATE DATABASE db_financial;
 
-GRANT ALL ON DATABASE financial_db TO postgres;
+GRANT ALL ON DATABASE db_financial TO postgres;
 ```
 
 #### Criando virtualenv
